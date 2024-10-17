@@ -1,4 +1,3 @@
-
 public class Imagen {
     private String archivo;
 

@@ -30,23 +30,11 @@ public class Orden {
         return articulos;
     }
 
-    public void setArticulos(ArrayList<Articulo> articulos) {
-        this.articulos = articulos;
-    }
-
     public Date getFechaDeOrden() {
         return fechaDeOrden;
     }
 
-    public void setFechaDeOrden(Date fechaDeOrden) {
-        this.fechaDeOrden = fechaDeOrden;
-    }
-
     public String getNumeroTarjeta() {
         return numeroTarjeta;
-    }
-
-    public void setNumeroTarjeta(String numeroTarjeta) {
-        this.numeroTarjeta = numeroTarjeta;
     }
 }

@@ -1,95 +1,61 @@
-package arraylistScanner;
 import java.util.ArrayList;
 import java.util.Date;
 
 public class Ejecutar {
     public static void main(String[] args) {
-        // Crear clientes y pedidos predefinidos
-        Cliente cliente1 = new Cliente("123456789", "Ana Gómez");
-        Cliente cliente2 = new Cliente("987654321", "Luis Pérez");
+        // Crear usuarios
+        Usuario usuario1 = new Usuario("123456789", "Ana Gómez");
+        Usuario usuario2 = new Usuario("987654321", "Luis Pérez");
 
-        // Crear una lista de pedidos
-        ArrayList<Pedido> pedidos = new ArrayList<>();
+        // Crear órdenes
+        ArrayList<Orden> ordenes = new ArrayList<>();
+        ordenes.add(crearOrden(usuario1, new Date(), "1234-5678-9012-3456"));
+        ordenes.add(crearOrden(usuario2, new Date(), "6543-2109-8765-4321"));
 
-        // Creación automática de pedidos con productos predefinidos
-        pedidos.add(crearPedido(cliente1, new Date(), "1234-5678-9012-3456"));
-        pedidos.add(crearPedido(cliente2, new Date(), "6543-2109-8765-4321"));
+        // Agregar productos a las órdenes
+        CamaraFotografica camara1 = new CamaraFotografica(101, "Canon", "EOS Rebel T7");
+        Impresora impresora1 = new Impresora(201, "Color");
+        impresora1.añadirImagen(new Imagen("foto1.jpg"));
+        impresora1.añadirImagen(new Imagen("foto2.jpg"));
 
-        // Agregar productos predefinidos a cada pedido
-        Camara camara1 = crearCamara(101, "Canon", "EOS Rebel T7");
-        Impresion impresion1 = crearImpresion(201, "Color");
-        agregarFotoAImpresion(impresion1, "foto1.jpg");
-        agregarFotoAImpresion(impresion1, "foto2.jpg");
+        ordenes.get(0).añadirArticulo(camara1);
+        ordenes.get(0).añadirArticulo(impresora1);
 
-        pedidos.get(0).addProducto(camara1);
-        pedidos.get(0).addProducto(impresion1);
+        CamaraFotografica camara2 = new CamaraFotografica(102, "Nikon", "D3500");
+        Impresora impresora2 = new Impresora(202, "Blanco y Negro");
+        impresora2.añadirImagen(new Imagen("foto3.jpg"));
+        impresora2.añadirImagen(new Imagen("foto4.jpg"));
 
-        Camara camara2 = crearCamara(102, "Nikon", "D3500");
-        Impresion impresion2 = crearImpresion(202, "Blanco y Negro");
-        agregarFotoAImpresion(impresion2, "foto3.jpg");
-        agregarFotoAImpresion(impresion2, "foto4.jpg");
+        ordenes.get(1).añadirArticulo(camara2);
+        ordenes.get(1).añadirArticulo(impresora2);
 
-        pedidos.get(1).addProducto(camara2);
-        pedidos.get(1).addProducto(impresion2);
-
-        // Mostrar detalles de los pedidos creados
-        for (Pedido pedido : pedidos) {
-            mostrarDetallesPedido(pedido);
+        // Mostrar detalles de las órdenes
+        for (Orden orden : ordenes) {
+            mostrarDetallesOrden(orden);
         }
     }
 
-    // Método para crear un cliente
-    public static Cliente crearCliente(String cedula, String nombre) {
-        Cliente cliente = new Cliente(cedula, nombre);
-        System.out.println("Cliente creado: " + nombre);
-        return cliente;
+    public static Orden crearOrden(Usuario usuario, Date fecha, String numeroTarjeta) {
+        Orden orden = new Orden(usuario, fecha, numeroTarjeta);
+        System.out.println("Orden creada para: " + usuario.getNombreCompleto());
+        return orden;
     }
 
-    // Método para crear un pedido
-    public static Pedido crearPedido(Cliente cliente, Date fecha, String numeroTarjetaCredito) {
-        Pedido pedido = new Pedido(cliente, fecha, numeroTarjetaCredito);
-        System.out.println("Pedido creado para el cliente: " + cliente.getNombre());
-        return pedido;
-    }
-
-    // Método para crear una cámara
-    public static Camara crearCamara(int numero, String marca, String modelo) {
-        Camara camara = new Camara(numero, marca, modelo);
-        System.out.println("Cámara creada: Marca " + marca + ", Modelo " + modelo);
-        return camara;
-    }
-
-    // Método para crear una impresión
-    public static Impresion crearImpresion(int numero, String color) {
-        Impresion impresion = new Impresion(numero, color);
-        System.out.println("Impresión creada: Número " + numero + ", Color " + color);
-        return impresion;
-    }
-
-    // Método para agregar una foto a una impresión
-    public static void agregarFotoAImpresion(Impresion impresion, String fichero) {
-        Foto foto = new Foto(fichero);
-        impresion.addFoto(foto);
-        System.out.println("Foto agregada a la impresión: " + fichero);
-    }
-
-    // Método para mostrar los detalles de un pedido
-    public static void mostrarDetallesPedido(Pedido pedido) {
-        System.out.println("\nDetalles del pedido para el cliente " + pedido.getCliente().getNombre() + ":");
-        System.out.println("Fecha: " + pedido.getFecha());
-        System.out.println("Número de tarjeta de crédito: " + pedido.getNumeroTarjetaCredito());
-        System.out.println("Productos en el pedido:");
-
-        for (Producto producto : pedido.getProductos()) {
-            if (producto instanceof Impresion) {
-                Impresion impresion = (Impresion) producto;
-                System.out.println("- Impresión (Número: " + impresion.getNumero() + ", Color: " + impresion.getColor() + ")");
-                for (Foto foto : impresion.getFotos()) {
-                    System.out.println("  * Foto: " + foto);
+    public static void mostrarDetallesOrden(Orden orden) {
+        System.out.println("\nDetalles de la orden para " + orden.getUsuario().getNombreCompleto() + ":");
+        System.out.println("Fecha: " + orden.getFechaDeOrden());
+        System.out.println("Tarjeta: " + orden.getNumeroTarjeta());
+        System.out.println("Artículos:");
+        for (Articulo articulo : orden.getArticulos()) {
+            if (articulo instanceof CamaraFotografica) {
+                CamaraFotografica camara = (CamaraFotografica) articulo;
+                System.out.println("- Cámara: " + camara.getMarca() + " " + camara.getModelo());
+            } else if (articulo instanceof Impresora) {
+                Impresora impresora = (Impresora) articulo;
+                System.out.println("- Impresora: " + impresora.getTonalidad());
+                for (Imagen imagen : impresora.getImagenes()) {
+                    System.out.println("  * " + imagen);
                 }
-            } else if (producto instanceof Camara) {
-                Camara camara = (Camara) producto;
-                System.out.println("- Cámara (Número: " + camara.getNumero() + ", Marca: " + camara.getMarca() + ", Modelo: " + camara.getModelo() + ")");
             }
         }
     }

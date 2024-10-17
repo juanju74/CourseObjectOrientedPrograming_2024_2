@@ -1,5 +1,4 @@
 public class Articulo {
-
     private int identificador;
 
     public Articulo(int identificador) {
