@@ -4,8 +4,8 @@ public class EjecutarHerencia {
     public static void main(String[] args) {
 
         // Crear objetos de Cliente
-        Cliente cliente1 = new Cliente("123456", "Manuel figueroa");
-        Cliente cliente2 = new Cliente("654321", "Amarantha Martinèz");
+        Cliente cliente1 = new Cliente("123456", "Manuel Figueroa");
+        Cliente cliente2 = new Cliente("654321", "Julio Martinez");
 
         // Crear objetos de Foto para las impresiones de ambos clientes
         Foto[] fotosImpresion1 = {
